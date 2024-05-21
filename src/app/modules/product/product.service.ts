@@ -1,3 +1,4 @@
+import { CustomError } from '../../shared/utils/CustomError';
 import { IProduct } from './product.interface';
 import { Product } from './product.model';
 
@@ -47,11 +48,11 @@ const updateSingleProductIntoDB = async (id: string, productData: IProduct) => {
 const deleteSingleProductIntoDB = async (id: string) => {
   const result = await Product.deleteOne({ _id: id });
 
-  if (result.deletedCount > 0) {
-    return result;
-  } else {
-    throw new Error('Failed to delete product');
+  if (result.deletedCount === 0) {
+    throw CustomError('No product found with this id!', 404);
   }
+
+  return result;
 };
 
 export const productServices = {

@@ -1,36 +1,32 @@
+import { ICustomError } from '../../shared/types';
+import { CustomError } from '../../shared/utils/CustomError';
 import { Product } from '../product/product.model';
 import { IOrder } from './order.interface';
 import { Order } from './order.model';
 
 const createOrderIntoDB = async (orderData: IOrder) => {
-  const { productId, quantity: orderQuantity } = orderData;
-
-  const product = await Product.findById(productId);
+  const product = await Product.findById(orderData.productId);
 
   if (!product) {
-    throw new Error('No product found with this product id!');
+    throw CustomError('No product found with this product id!', 404);
   }
 
-  const { quantity: inventoryQuantity } = product.inventory;
-
-  if (orderQuantity > inventoryQuantity) {
-    throw new Error('Insufficient quantity available in inventory');
+  if (orderData.quantity > product.inventory.quantity) {
+    throw CustomError('Insufficient quantity available in inventory', 422);
   }
 
-  product.inventory.quantity -= orderQuantity;
-
-  const result = await Order.create(orderData);
-  await product.save();
+  product.inventory.quantity -= orderData.quantity; // update inventory quantity
+  const result = await Order.create(orderData); // create order
+  await product.save(); // save product data with updated quantity
   return result;
 };
 
 const getAllOrdersFromDB = async (email?: string) => {
   const findQuery = email ? { email } : {};
-
   const orders = await Order.find(findQuery);
 
   if (orders.length === 0) {
-    throw new Error('Order not found');
+    throw CustomError('Order not found', 404);
   }
 
   return {
