@@ -14,7 +14,11 @@ const CustomError_1 = require("../../shared/utils/CustomError");
 const product_model_1 = require("./product.model");
 const createProductIntoDB = (productData) => __awaiter(void 0, void 0, void 0, function* () {
     const product = yield product_model_1.Product.create(productData);
-    return product;
+    return {
+        success: true,
+        message: 'Product created successfully!',
+        data: product,
+    };
 });
 const getAllProductsFromDB = (searchTerm) => __awaiter(void 0, void 0, void 0, function* () {
     const findQuery = searchTerm
@@ -40,20 +44,32 @@ const getAllProductsFromDB = (searchTerm) => __awaiter(void 0, void 0, void 0, f
 });
 const getSingleProductFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const product = yield product_model_1.Product.findById(id);
-    return product;
+    return {
+        success: true,
+        message: 'Product fetched successfully!',
+        data: product,
+    };
 });
 const updateSingleProductIntoDB = (id, productData) => __awaiter(void 0, void 0, void 0, function* () {
     const updatedProduct = yield product_model_1.Product.findByIdAndUpdate(id, productData, {
         new: true,
     });
-    return updatedProduct;
+    return {
+        success: true,
+        message: 'Product updated successfully!',
+        data: updatedProduct,
+    };
 });
 const deleteSingleProductIntoDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const response = yield product_model_1.Product.deleteOne({ _id: id });
     if (response.deletedCount === 0) {
         throw (0, CustomError_1.CustomError)('No product found with this id!', 404);
     }
-    return response;
+    return {
+        success: true,
+        message: 'Product deleted successfully!',
+        data: null,
+    };
 });
 exports.productServices = {
     createProductIntoDB,

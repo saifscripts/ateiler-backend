@@ -7,14 +7,8 @@ const createProduct = async (
   next: NextFunction,
 ) => {
   try {
-    const productData = req.body;
-    const result = await productServices.createProductIntoDB(productData);
-
-    res.status(200).json({
-      success: true,
-      message: 'Product created successfully!',
-      data: result,
-    });
+    const result = await productServices.createProductIntoDB(req.body);
+    res.status(200).json(result);
   } catch (error) {
     next(error);
   }
@@ -26,12 +20,9 @@ const getAllProducts = async (
   next: NextFunction,
 ) => {
   try {
-    const { searchTerm } = req.query;
+    const searchTerm = req.query.searchTerm as string | undefined;
 
-    const result = await productServices.getAllProductsFromDB(
-      searchTerm as string | undefined,
-    );
-
+    const result = await productServices.getAllProductsFromDB(searchTerm);
     res.status(200).json(result);
   } catch (error) {
     next(error);
@@ -45,13 +36,9 @@ const getSingleProduct = async (
 ) => {
   try {
     const { productId } = req.params;
-    const result = await productServices.getSingleProductFromDB(productId);
 
-    res.status(200).json({
-      success: true,
-      message: 'Product fetched successfully!',
-      data: result,
-    });
+    const result = await productServices.getSingleProductFromDB(productId);
+    res.status(200).json(result);
   } catch (error) {
     next(error);
   }
@@ -71,11 +58,7 @@ const updateSingleProduct = async (
       productData,
     );
 
-    res.status(200).json({
-      success: true,
-      message: 'Product updated successfully!',
-      data: result,
-    });
+    res.status(200).json(result);
   } catch (error) {
     next(error);
   }
@@ -89,13 +72,8 @@ const deleteSingleProduct = async (
   try {
     const { productId } = req.params;
 
-    await productServices.deleteSingleProductIntoDB(productId);
-
-    res.status(200).json({
-      success: true,
-      message: 'Product deleted successfully!',
-      data: null,
-    });
+    const result = await productServices.deleteSingleProductIntoDB(productId);
+    res.status(200).json(result);
   } catch (error) {
     next(error);
   }

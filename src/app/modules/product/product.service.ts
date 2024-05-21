@@ -4,10 +4,15 @@ import { Product } from './product.model';
 
 const createProductIntoDB = async (productData: IProduct) => {
   const product = await Product.create(productData);
-  return product;
+
+  return {
+    success: true,
+    message: 'Product created successfully!',
+    data: product,
+  };
 };
 
-const getAllProductsFromDB = async (searchTerm: string | undefined) => {
+const getAllProductsFromDB = async (searchTerm?: string) => {
   const findQuery = searchTerm
     ? {
         $or: [
@@ -35,14 +40,24 @@ const getAllProductsFromDB = async (searchTerm: string | undefined) => {
 
 const getSingleProductFromDB = async (id: string) => {
   const product = await Product.findById(id);
-  return product;
+
+  return {
+    success: true,
+    message: 'Product fetched successfully!',
+    data: product,
+  };
 };
 
 const updateSingleProductIntoDB = async (id: string, productData: IProduct) => {
   const updatedProduct = await Product.findByIdAndUpdate(id, productData, {
     new: true,
   });
-  return updatedProduct;
+
+  return {
+    success: true,
+    message: 'Product updated successfully!',
+    data: updatedProduct,
+  };
 };
 
 const deleteSingleProductIntoDB = async (id: string) => {
@@ -52,7 +67,11 @@ const deleteSingleProductIntoDB = async (id: string) => {
     throw CustomError('No product found with this id!', 404);
   }
 
-  return response;
+  return {
+    success: true,
+    message: 'Product deleted successfully!',
+    data: null,
+  };
 };
 
 export const productServices = {

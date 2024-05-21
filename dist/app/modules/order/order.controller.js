@@ -13,13 +13,8 @@ exports.orderControllers = void 0;
 const order_service_1 = require("./order.service");
 const createOrder = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const orderData = req.body;
-        const result = yield order_service_1.OrderServices.createOrderIntoDB(orderData);
-        res.status(200).json({
-            success: true,
-            message: 'Order created successfully!',
-            data: result,
-        });
+        const result = yield order_service_1.OrderServices.createOrderIntoDB(req.body);
+        res.status(200).json(result);
     }
     catch (error) {
         next(error);
@@ -27,7 +22,7 @@ const createOrder = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
 });
 const getAllOrders = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { email } = req.query;
+        const email = req.query.email;
         const result = yield order_service_1.OrderServices.getAllOrdersFromDB(email);
         res.status(200).json(result);
     }

@@ -24,7 +24,11 @@ const createOrderIntoDB = (orderData) => __awaiter(void 0, void 0, void 0, funct
     product.inventory.quantity -= orderData.quantity; // update inventory quantity
     const order = yield order_model_1.Order.create(orderData); // create order
     yield product.save(); // save product data with updated quantity
-    return order;
+    return {
+        success: true,
+        message: 'Order created successfully!',
+        result: order,
+    };
 });
 const getAllOrdersFromDB = (email) => __awaiter(void 0, void 0, void 0, function* () {
     const findQuery = email ? { email } : {};

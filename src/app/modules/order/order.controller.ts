@@ -3,14 +3,8 @@ import { OrderServices } from './order.service';
 
 const createOrder = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const orderData = req.body;
-    const result = await OrderServices.createOrderIntoDB(orderData);
-
-    res.status(200).json({
-      success: true,
-      message: 'Order created successfully!',
-      data: result,
-    });
+    const result = await OrderServices.createOrderIntoDB(req.body);
+    res.status(200).json(result);
   } catch (error) {
     next(error);
   }
@@ -22,12 +16,9 @@ const getAllOrders = async (
   next: NextFunction,
 ) => {
   try {
-    const { email } = req.query;
+    const email = req.query.email as string | undefined;
 
-    const result = await OrderServices.getAllOrdersFromDB(
-      email as string | undefined,
-    );
-
+    const result = await OrderServices.getAllOrdersFromDB(email);
     res.status(200).json(result);
   } catch (error) {
     next(error);
