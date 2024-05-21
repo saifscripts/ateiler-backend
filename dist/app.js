@@ -12,7 +12,7 @@ app.use(express_1.default.json());
 app.use((0, cors_1.default)());
 // routes
 app.use('/api/products', product_route_1.productRoutes);
-app.get('/hello-world', (req, res) => {
-    res.send('Hello World!');
+app.get('/', (req, res) => {
+    res.status(200).json({ message: 'Hello World!' });
 });
 exports.default = app;

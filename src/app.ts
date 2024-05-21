@@ -11,8 +11,8 @@ app.use(cors());
 // routes
 app.use('/api/products', productRoutes);
 
-app.get('/hello-world', (req: Request, res: Response) => {
-  res.send('Hello World!');
+app.get('/', (req: Request, res: Response) => {
+  res.status(200).json({ message: 'Hello World!' });
 });
 
 export default app;
