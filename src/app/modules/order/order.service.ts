@@ -24,22 +24,20 @@ const createOrderIntoDB = async (orderData: IOrder) => {
   return result;
 };
 
-const getAllOrdersFromDB = async (email: string | undefined) => {
-  if (email) {
-    const orders = await Order.find({ email });
+const getAllOrdersFromDB = async (email?: string) => {
+  const findQuery = email ? { email } : {};
 
-    return {
-      success: true,
-      message: 'Orders fetched successfully for user email!',
-      data: orders,
-    };
+  const orders = await Order.find(findQuery);
+
+  if (orders.length === 0) {
+    throw new Error('Order not found');
   }
-
-  const orders = await Order.find();
 
   return {
     success: true,
-    message: 'Orders fetched successfully!',
+    message: email
+      ? 'Orders fetched successfully for user email!'
+      : 'Orders fetched successfully!',
     data: orders,
   };
 };
