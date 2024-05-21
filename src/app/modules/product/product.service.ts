@@ -20,6 +20,10 @@ const getAllProductsFromDB = async (searchTerm: string | undefined) => {
 
   const products = await Product.find(findQuery);
 
+  if (products.length === 0) {
+    throw CustomError('Product not found', 404);
+  }
+
   return {
     success: true,
     message: searchTerm
