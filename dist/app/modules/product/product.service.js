@@ -42,11 +42,10 @@ const getSingleProductFromDB = (id) => __awaiter(void 0, void 0, void 0, functio
     return result;
 });
 const updateSingleProductIntoDB = (id, productData) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield product_model_1.Product.updateOne({ _id: id }, { $set: productData });
-    if (result.modifiedCount > 0) {
-        const updatedProduct = yield getSingleProductFromDB(id);
-        return updatedProduct;
-    }
+    const result = yield product_model_1.Product.findByIdAndUpdate(id, productData, {
+        new: true,
+    });
+    return result;
 });
 const deleteSingleProductIntoDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield product_model_1.Product.deleteOne({ _id: id });

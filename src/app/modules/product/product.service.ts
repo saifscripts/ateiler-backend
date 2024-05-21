@@ -38,12 +38,10 @@ const getSingleProductFromDB = async (id: string) => {
 };
 
 const updateSingleProductIntoDB = async (id: string, productData: IProduct) => {
-  const result = await Product.updateOne({ _id: id }, { $set: productData });
-
-  if (result.modifiedCount > 0) {
-    const updatedProduct = await getSingleProductFromDB(id);
-    return updatedProduct;
-  }
+  const result = await Product.findByIdAndUpdate(id, productData, {
+    new: true,
+  });
+  return result;
 };
 
 const deleteSingleProductIntoDB = async (id: string) => {
