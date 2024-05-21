@@ -7,12 +7,12 @@ const createProductIntoDB = async (productData: IProduct) => {
 };
 
 const getAllProductsFromDB = async () => {
-  const result = await Product.find();
+  const result = await Product.find().select('-_id');
   return result;
 };
 
 const getSingleProductFromDB = async (id: string) => {
-  const result = await Product.findById(id);
+  const result = await Product.findById(id).select('-_id');
   return result;
 };
 
@@ -20,7 +20,7 @@ const updateSingleProductIntoDB = async (id: string, productData: IProduct) => {
   const result = await Product.updateOne({ _id: id }, { $set: productData });
 
   if (result.modifiedCount > 0) {
-    const updatedProduct = await Product.findById(id);
+    const updatedProduct = await getSingleProductFromDB(id);
     return updatedProduct;
   }
 };
