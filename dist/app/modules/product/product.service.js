@@ -13,47 +13,44 @@ exports.productServices = void 0;
 const CustomError_1 = require("../../shared/utils/CustomError");
 const product_model_1 = require("./product.model");
 const createProductIntoDB = (productData) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield product_model_1.Product.create(productData);
-    return result;
+    const product = yield product_model_1.Product.create(productData);
+    return product;
 });
 const getAllProductsFromDB = (searchTerm) => __awaiter(void 0, void 0, void 0, function* () {
-    if (searchTerm) {
-        const products = yield product_model_1.Product.find({
+    const findQuery = searchTerm
+        ? {
             $or: [
                 { name: { $regex: searchTerm, $options: 'i' } },
                 { description: { $regex: searchTerm, $options: 'i' } },
                 { category: { $regex: searchTerm, $options: 'i' } },
             ],
-        });
-        return {
-            success: true,
-            message: `Products matching search term '${searchTerm}' fetched successfully!`,
-            data: products,
-        };
-    }
-    const products = yield product_model_1.Product.find();
+        }
+        : {};
+    const products = yield product_model_1.Product.find(findQuery);
     return {
         success: true,
-        message: 'Products fetched successfully!',
+        message: searchTerm
+            ? `Products matching search term '${searchTerm}' fetched successfully!`
+            : 'Products fetched successfully!',
         data: products,
     };
 });
 const getSingleProductFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield product_model_1.Product.findById(id).select('-_id');
-    return result;
+    const product = yield product_model_1.Product.findById(id);
+    return product;
 });
 const updateSingleProductIntoDB = (id, productData) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield product_model_1.Product.findByIdAndUpdate(id, productData, {
+    const updatedProduct = yield product_model_1.Product.findByIdAndUpdate(id, productData, {
         new: true,
     });
-    return result;
+    return updatedProduct;
 });
 const deleteSingleProductIntoDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield product_model_1.Product.deleteOne({ _id: id });
-    if (result.deletedCount === 0) {
+    const response = yield product_model_1.Product.deleteOne({ _id: id });
+    if (response.deletedCount === 0) {
         throw (0, CustomError_1.CustomError)('No product found with this id!', 404);
     }
-    return result;
+    return response;
 });
 exports.productServices = {
     createProductIntoDB,

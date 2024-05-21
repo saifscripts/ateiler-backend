@@ -3,56 +3,52 @@ import { IProduct } from './product.interface';
 import { Product } from './product.model';
 
 const createProductIntoDB = async (productData: IProduct) => {
-  const result = await Product.create(productData);
-  return result;
+  const product = await Product.create(productData);
+  return product;
 };
 
 const getAllProductsFromDB = async (searchTerm: string | undefined) => {
-  if (searchTerm) {
-    const products = await Product.find({
-      $or: [
-        { name: { $regex: searchTerm, $options: 'i' } },
-        { description: { $regex: searchTerm, $options: 'i' } },
-        { category: { $regex: searchTerm, $options: 'i' } },
-      ],
-    });
+  const findQuery = searchTerm
+    ? {
+        $or: [
+          { name: { $regex: searchTerm, $options: 'i' } },
+          { description: { $regex: searchTerm, $options: 'i' } },
+          { category: { $regex: searchTerm, $options: 'i' } },
+        ],
+      }
+    : {};
 
-    return {
-      success: true,
-      message: `Products matching search term '${searchTerm}' fetched successfully!`,
-      data: products,
-    };
-  }
-
-  const products = await Product.find();
+  const products = await Product.find(findQuery);
 
   return {
     success: true,
-    message: 'Products fetched successfully!',
+    message: searchTerm
+      ? `Products matching search term '${searchTerm}' fetched successfully!`
+      : 'Products fetched successfully!',
     data: products,
   };
 };
 
 const getSingleProductFromDB = async (id: string) => {
-  const result = await Product.findById(id).select('-_id');
-  return result;
+  const product = await Product.findById(id);
+  return product;
 };
 
 const updateSingleProductIntoDB = async (id: string, productData: IProduct) => {
-  const result = await Product.findByIdAndUpdate(id, productData, {
+  const updatedProduct = await Product.findByIdAndUpdate(id, productData, {
     new: true,
   });
-  return result;
+  return updatedProduct;
 };
 
 const deleteSingleProductIntoDB = async (id: string) => {
-  const result = await Product.deleteOne({ _id: id });
+  const response = await Product.deleteOne({ _id: id });
 
-  if (result.deletedCount === 0) {
+  if (response.deletedCount === 0) {
     throw CustomError('No product found with this id!', 404);
   }
 
-  return result;
+  return response;
 };
 
 export const productServices = {
