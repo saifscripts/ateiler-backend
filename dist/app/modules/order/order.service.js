@@ -14,18 +14,16 @@ const CustomError_1 = require("../../shared/utils/CustomError");
 const product_model_1 = require("../product/product.model");
 const order_model_1 = require("./order.model");
 const createOrderIntoDB = (orderData) => __awaiter(void 0, void 0, void 0, function* () {
-    const { productId, quantity: orderQuantity } = orderData;
-    const product = yield product_model_1.Product.findById(productId);
+    const product = yield product_model_1.Product.findById(orderData.productId);
     if (!product) {
-        throw new Error('No product found with this product id!');
+        throw (0, CustomError_1.CustomError)('No product found with this product id!', 404);
     }
-    const { quantity: inventoryQuantity } = product.inventory;
-    if (orderQuantity > inventoryQuantity) {
-        throw new Error('Insufficient quantity available in inventory');
+    if (orderData.quantity > product.inventory.quantity) {
+        throw (0, CustomError_1.CustomError)('Insufficient quantity available in inventory', 422);
     }
-    product.inventory.quantity -= orderQuantity;
-    const result = yield order_model_1.Order.create(orderData);
-    yield product.save();
+    product.inventory.quantity -= orderData.quantity; // update inventory quantity
+    const result = yield order_model_1.Order.create(orderData); // create order
+    yield product.save(); // save product data with updated quantity
     return result;
 });
 const getAllOrdersFromDB = (email) => __awaiter(void 0, void 0, void 0, function* () {

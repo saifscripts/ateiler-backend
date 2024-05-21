@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.productServices = void 0;
+const CustomError_1 = require("../../shared/utils/CustomError");
 const product_model_1 = require("./product.model");
 const createProductIntoDB = (productData) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield product_model_1.Product.create(productData);
@@ -49,12 +50,10 @@ const updateSingleProductIntoDB = (id, productData) => __awaiter(void 0, void 0,
 });
 const deleteSingleProductIntoDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield product_model_1.Product.deleteOne({ _id: id });
-    if (result.deletedCount > 0) {
-        return result;
+    if (result.deletedCount === 0) {
+        throw (0, CustomError_1.CustomError)('No product found with this id!', 404);
     }
-    else {
-        throw new Error('Failed to delete product');
-    }
+    return result;
 });
 exports.productServices = {
     createProductIntoDB,
