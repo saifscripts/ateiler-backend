@@ -1,7 +1,11 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { productServices } from './product.service';
 
-const createProduct = async (req: Request, res: Response) => {
+const createProduct = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const productData = req.body;
     const result = await productServices.createProductIntoDB(productData);
@@ -11,15 +15,16 @@ const createProduct = async (req: Request, res: Response) => {
       message: 'Product created successfully!',
       data: result,
     });
-  } catch (error: any) {
-    res.status(500).json({
-      success: false,
-      message: error.message || 'Something went wrong!',
-    });
+  } catch (error) {
+    next(error);
   }
 };
 
-const getAllProducts = async (req: Request, res: Response) => {
+const getAllProducts = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const { searchTerm } = req.query;
 
@@ -28,15 +33,16 @@ const getAllProducts = async (req: Request, res: Response) => {
     );
 
     res.status(200).json(result);
-  } catch (error: any) {
-    res.status(500).json({
-      success: false,
-      message: error.message || 'Something went wrong!',
-    });
+  } catch (error) {
+    next(error);
   }
 };
 
-const getSingleProduct = async (req: Request, res: Response) => {
+const getSingleProduct = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const { productId } = req.params;
     const result = await productServices.getSingleProductFromDB(productId);
@@ -46,15 +52,16 @@ const getSingleProduct = async (req: Request, res: Response) => {
       message: 'Product fetched successfully!',
       data: result,
     });
-  } catch (error: any) {
-    res.status(500).json({
-      success: false,
-      message: error.message || 'Something went wrong!',
-    });
+  } catch (error) {
+    next(error);
   }
 };
 
-const updateSingleProduct = async (req: Request, res: Response) => {
+const updateSingleProduct = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const { productId } = req.params;
     const productData = req.body;
@@ -69,15 +76,16 @@ const updateSingleProduct = async (req: Request, res: Response) => {
       message: 'Product updated successfully!',
       data: result,
     });
-  } catch (error: any) {
-    res.status(500).json({
-      success: false,
-      message: error.message || 'Something went wrong!',
-    });
+  } catch (error) {
+    next(error);
   }
 };
 
-const deleteSingleProduct = async (req: Request, res: Response) => {
+const deleteSingleProduct = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const { productId } = req.params;
 
@@ -88,11 +96,8 @@ const deleteSingleProduct = async (req: Request, res: Response) => {
       message: 'Product deleted successfully!',
       data: null,
     });
-  } catch (error: any) {
-    res.status(500).json({
-      success: false,
-      message: error.message || 'Something went wrong!',
-    });
+  } catch (error) {
+    next(error);
   }
 };
 

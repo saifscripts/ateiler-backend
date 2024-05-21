@@ -11,7 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.orderControllers = void 0;
 const order_service_1 = require("./order.service");
-const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const createOrder = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const orderData = req.body;
         const result = yield order_service_1.OrderServices.createOrderIntoDB(orderData);
@@ -22,23 +22,17 @@ const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         });
     }
     catch (error) {
-        res.status(500).json({
-            success: false,
-            message: error.message || 'Something went wrong!',
-        });
+        next(error);
     }
 });
-const getAllOrders = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllOrders = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { email } = req.query;
         const result = yield order_service_1.OrderServices.getAllOrdersFromDB(email);
         res.status(200).json(result);
     }
     catch (error) {
-        res.status(500).json({
-            success: false,
-            message: error.message || 'Something went wrong!',
-        });
+        next(error);
     }
 });
 exports.orderControllers = {

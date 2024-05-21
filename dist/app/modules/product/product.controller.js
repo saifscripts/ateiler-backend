@@ -11,7 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.productControllers = void 0;
 const product_service_1 = require("./product.service");
-const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const createProduct = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const productData = req.body;
         const result = yield product_service_1.productServices.createProductIntoDB(productData);
@@ -22,26 +22,20 @@ const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         });
     }
     catch (error) {
-        res.status(500).json({
-            success: false,
-            message: error.message || 'Something went wrong!',
-        });
+        next(error);
     }
 });
-const getAllProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllProducts = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { searchTerm } = req.query;
         const result = yield product_service_1.productServices.getAllProductsFromDB(searchTerm);
         res.status(200).json(result);
     }
     catch (error) {
-        res.status(500).json({
-            success: false,
-            message: error.message || 'Something went wrong!',
-        });
+        next(error);
     }
 });
-const getSingleProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getSingleProduct = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { productId } = req.params;
         const result = yield product_service_1.productServices.getSingleProductFromDB(productId);
@@ -52,13 +46,10 @@ const getSingleProduct = (req, res) => __awaiter(void 0, void 0, void 0, functio
         });
     }
     catch (error) {
-        res.status(500).json({
-            success: false,
-            message: error.message || 'Something went wrong!',
-        });
+        next(error);
     }
 });
-const updateSingleProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const updateSingleProduct = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { productId } = req.params;
         const productData = req.body;
@@ -70,13 +61,10 @@ const updateSingleProduct = (req, res) => __awaiter(void 0, void 0, void 0, func
         });
     }
     catch (error) {
-        res.status(500).json({
-            success: false,
-            message: error.message || 'Something went wrong!',
-        });
+        next(error);
     }
 });
-const deleteSingleProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const deleteSingleProduct = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { productId } = req.params;
         yield product_service_1.productServices.deleteSingleProductIntoDB(productId);
@@ -87,10 +75,7 @@ const deleteSingleProduct = (req, res) => __awaiter(void 0, void 0, void 0, func
         });
     }
     catch (error) {
-        res.status(500).json({
-            success: false,
-            message: error.message || 'Something went wrong!',
-        });
+        next(error);
     }
 });
 exports.productControllers = {

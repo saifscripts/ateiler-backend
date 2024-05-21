@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.OrderServices = void 0;
+const CustomError_1 = require("../../shared/utils/CustomError");
 const product_model_1 = require("../product/product.model");
 const order_model_1 = require("./order.model");
 const createOrderIntoDB = (orderData) => __awaiter(void 0, void 0, void 0, function* () {
@@ -31,7 +32,7 @@ const getAllOrdersFromDB = (email) => __awaiter(void 0, void 0, void 0, function
     const findQuery = email ? { email } : {};
     const orders = yield order_model_1.Order.find(findQuery);
     if (orders.length === 0) {
-        throw new Error('Order not found');
+        throw (0, CustomError_1.CustomError)('Order not found', 404);
     }
     return {
         success: true,

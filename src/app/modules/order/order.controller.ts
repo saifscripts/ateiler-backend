@@ -1,7 +1,7 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { OrderServices } from './order.service';
 
-const createOrder = async (req: Request, res: Response) => {
+const createOrder = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const orderData = req.body;
     const result = await OrderServices.createOrderIntoDB(orderData);
@@ -11,15 +11,16 @@ const createOrder = async (req: Request, res: Response) => {
       message: 'Order created successfully!',
       data: result,
     });
-  } catch (error: any) {
-    res.status(500).json({
-      success: false,
-      message: error.message || 'Something went wrong!',
-    });
+  } catch (error) {
+    next(error);
   }
 };
 
-const getAllOrders = async (req: Request, res: Response) => {
+const getAllOrders = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const { email } = req.query;
 
@@ -28,11 +29,8 @@ const getAllOrders = async (req: Request, res: Response) => {
     );
 
     res.status(200).json(result);
-  } catch (error: any) {
-    res.status(500).json({
-      success: false,
-      message: error.message || 'Something went wrong!',
-    });
+  } catch (error) {
+    next(error);
   }
 };
 

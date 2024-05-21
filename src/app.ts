@@ -1,7 +1,8 @@
-import express, { Request, Response } from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import { productRoutes } from './app/modules/product/product.route';
 import { orderRoutes } from './app/modules/order/order.route';
+import { ICustomError } from './app/shared/types';
 
 const app = express();
 
@@ -23,5 +24,22 @@ app.get('/*', (req: Request, res: Response) => {
     message: 'Route not found',
   });
 });
+
+app.use(
+  (
+    err: ICustomError,
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): void => {
+    const statusCode = err.statusCode || 500;
+    const message = err.message || 'Something went wrong!';
+
+    res.status(statusCode).json({
+      success: false,
+      message,
+    });
+  },
+);
 
 export default app;
