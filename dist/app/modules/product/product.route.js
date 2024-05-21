@@ -11,5 +11,8 @@ router
     .route('/')
     .post(product_controller_1.productControllers.createProduct)
     .get(product_controller_1.productControllers.getAllProducts);
-router.route('/:productId').get(product_controller_1.productControllers.getSingleProduct);
+router
+    .route('/:productId')
+    .get(product_controller_1.productControllers.getSingleProduct)
+    .put(product_controller_1.productControllers.updateSingleProduct);
 exports.productRoutes = router;

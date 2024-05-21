@@ -23,8 +23,16 @@ const getSingleProductFromDB = (id) => __awaiter(void 0, void 0, void 0, functio
     const result = yield product_model_1.Product.findById(id);
     return result;
 });
+const updateSingleProductIntoDB = (id, productData) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield product_model_1.Product.updateOne({ _id: id }, { $set: productData });
+    if (result.modifiedCount > 0) {
+        const updatedProduct = yield product_model_1.Product.findById(id);
+        return updatedProduct;
+    }
+});
 exports.productServices = {
     createProductIntoDB,
     getAllProductsFromDB,
     getSingleProductFromDB,
+    updateSingleProductIntoDB,
 };

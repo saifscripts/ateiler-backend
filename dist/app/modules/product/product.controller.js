@@ -61,8 +61,27 @@ const getSingleProduct = (req, res) => __awaiter(void 0, void 0, void 0, functio
         });
     }
 });
+const updateSingleProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { productId } = req.params;
+        const productData = req.body;
+        const result = yield product_service_1.productServices.updateSingleProductIntoDB(productId, productData);
+        res.status(200).json({
+            success: true,
+            message: 'Product updated successfully!',
+            data: result,
+        });
+    }
+    catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message || 'Something went wrong!',
+        });
+    }
+});
 exports.productControllers = {
     createProduct,
     getAllProducts,
     getSingleProduct,
+    updateSingleProduct,
 };
