@@ -14,5 +14,6 @@ router
 router
     .route('/:productId')
     .get(product_controller_1.productControllers.getSingleProduct)
-    .put(product_controller_1.productControllers.updateSingleProduct);
+    .put(product_controller_1.productControllers.updateSingleProduct)
+    .delete(product_controller_1.productControllers.deleteSingleProduct);
 exports.productRoutes = router;

@@ -30,12 +30,9 @@ const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 });
 const getAllProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield product_service_1.productServices.getAllProductsFromDB();
-        res.status(200).json({
-            success: true,
-            message: 'Products fetched successfully!',
-            data: result,
-        });
+        const { searchTerm } = req.query;
+        const result = yield product_service_1.productServices.getAllProductsFromDB(searchTerm);
+        res.status(200).json(result);
     }
     catch (error) {
         res.status(500).json({
@@ -79,9 +76,27 @@ const updateSingleProduct = (req, res) => __awaiter(void 0, void 0, void 0, func
         });
     }
 });
+const deleteSingleProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { productId } = req.params;
+        yield product_service_1.productServices.deleteSingleProductIntoDB(productId);
+        res.status(200).json({
+            success: true,
+            message: 'Product deleted successfully!',
+            data: null,
+        });
+    }
+    catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message || 'Something went wrong!',
+        });
+    }
+});
 exports.productControllers = {
     createProduct,
     getAllProducts,
     getSingleProduct,
     updateSingleProduct,
+    deleteSingleProduct,
 };
