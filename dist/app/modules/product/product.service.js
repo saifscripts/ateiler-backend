@@ -27,6 +27,9 @@ const getAllProductsFromDB = (searchTerm) => __awaiter(void 0, void 0, void 0, f
         }
         : {};
     const products = yield product_model_1.Product.find(findQuery);
+    if (products.length === 0) {
+        throw (0, CustomError_1.CustomError)('Product not found', 404);
+    }
     return {
         success: true,
         message: searchTerm

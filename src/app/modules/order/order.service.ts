@@ -16,9 +16,9 @@ const createOrderIntoDB = async (orderData: IOrder) => {
   }
 
   product.inventory.quantity -= orderData.quantity; // update inventory quantity
-  const result = await Order.create(orderData); // create order
+  const order = await Order.create(orderData); // create order
   await product.save(); // save product data with updated quantity
-  return result;
+  return order;
 };
 
 const getAllOrdersFromDB = async (email?: string) => {

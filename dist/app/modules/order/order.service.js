@@ -22,9 +22,9 @@ const createOrderIntoDB = (orderData) => __awaiter(void 0, void 0, void 0, funct
         throw (0, CustomError_1.CustomError)('Insufficient quantity available in inventory', 422);
     }
     product.inventory.quantity -= orderData.quantity; // update inventory quantity
-    const result = yield order_model_1.Order.create(orderData); // create order
+    const order = yield order_model_1.Order.create(orderData); // create order
     yield product.save(); // save product data with updated quantity
-    return result;
+    return order;
 });
 const getAllOrdersFromDB = (email) => __awaiter(void 0, void 0, void 0, function* () {
     const findQuery = email ? { email } : {};
