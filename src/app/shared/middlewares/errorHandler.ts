@@ -7,15 +7,12 @@ export const errorHandler = (
   res: Response,
   _next: NextFunction,
 ): void => {
-  const statusCode = err.statusCode || 500;
+  // Join zod error messages from all fields (if error comes from zod)
+  const zodErrorMessage =
+    err.name === 'ZodError' && err?.issues?.map((e) => e.message).join(' | ');
 
-  const message =
-    err.name === 'ZodError'
-      ? err.issues?.map((e) => e.message).join(' | ')
-      : err.message || 'Something went wrong!';
-
-  res.status(statusCode).json({
+  res.status(err.statusCode || 500).json({
     success: false,
-    message,
+    message: zodErrorMessage || err.message || 'Something went wrong!',
   });
 };

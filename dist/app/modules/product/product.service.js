@@ -17,6 +17,7 @@ const createProductIntoDB = (productData) => __awaiter(void 0, void 0, void 0, f
     return product;
 });
 const getAllProductsFromDB = (searchTerm) => __awaiter(void 0, void 0, void 0, function* () {
+    // define find query conditionally (based on the presence of searchTerm)
     const findQuery = searchTerm
         ? {
             $or: [
@@ -38,7 +39,7 @@ const getSingleProductFromDB = (id) => __awaiter(void 0, void 0, void 0, functio
 });
 const updateSingleProductIntoDB = (id, productData) => __awaiter(void 0, void 0, void 0, function* () {
     const updatedProduct = yield product_model_1.Product.findByIdAndUpdate(id, productData, {
-        new: true,
+        new: true, // to return updated data
     });
     return updatedProduct;
 });

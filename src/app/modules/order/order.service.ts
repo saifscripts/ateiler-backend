@@ -16,6 +16,7 @@ const createOrderIntoDB = async (orderData: IOrder) => {
 
   product.inventory.quantity -= orderData.quantity; // update inventory quantity
   product.inventory.inStock = product.inventory.quantity > 0; // update stock status
+
   const order = await Order.create(orderData); // create order
   await product.save(); // save product data with updated quantity and stock status
 
@@ -23,7 +24,9 @@ const createOrderIntoDB = async (orderData: IOrder) => {
 };
 
 const getAllOrdersFromDB = async (email?: string) => {
+  // define find query conditionally (based on the presence of email)
   const findQuery = email ? { email } : {};
+
   const orders = await Order.find(findQuery);
 
   if (orders.length === 0) {

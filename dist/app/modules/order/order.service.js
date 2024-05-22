@@ -28,6 +28,7 @@ const createOrderIntoDB = (orderData) => __awaiter(void 0, void 0, void 0, funct
     return order;
 });
 const getAllOrdersFromDB = (email) => __awaiter(void 0, void 0, void 0, function* () {
+    // define find query conditionally (based on the presence of email)
     const findQuery = email ? { email } : {};
     const orders = yield order_model_1.Order.find(findQuery);
     if (orders.length === 0) {

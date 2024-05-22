@@ -8,6 +8,7 @@ const createProductIntoDB = async (productData: IProduct) => {
 };
 
 const getAllProductsFromDB = async (searchTerm?: string) => {
+  // define find query conditionally (based on the presence of searchTerm)
   const findQuery = searchTerm
     ? {
         $or: [
@@ -37,7 +38,7 @@ const updateSingleProductIntoDB = async (
   productData: Partial<IProduct>,
 ) => {
   const updatedProduct = await Product.findByIdAndUpdate(id, productData, {
-    new: true,
+    new: true, // to return updated data
   });
 
   return updatedProduct;
