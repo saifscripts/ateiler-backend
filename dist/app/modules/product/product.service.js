@@ -35,12 +35,18 @@ const getAllProductsFromDB = (searchTerm) => __awaiter(void 0, void 0, void 0, f
 });
 const getSingleProductFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const product = yield product_model_1.Product.findById(id);
+    if (!product) {
+        throw (0, CustomError_1.CustomError)('No product found with this product id!', 404);
+    }
     return product;
 });
 const updateSingleProductIntoDB = (id, productData) => __awaiter(void 0, void 0, void 0, function* () {
     const updatedProduct = yield product_model_1.Product.findByIdAndUpdate(id, productData, {
         new: true, // to return updated data
     });
+    if (!updatedProduct) {
+        throw (0, CustomError_1.CustomError)('No product found with this product id!', 404);
+    }
     return updatedProduct;
 });
 const deleteSingleProductIntoDB = (id) => __awaiter(void 0, void 0, void 0, function* () {

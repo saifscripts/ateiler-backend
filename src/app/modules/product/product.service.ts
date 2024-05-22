@@ -30,6 +30,11 @@ const getAllProductsFromDB = async (searchTerm?: string) => {
 
 const getSingleProductFromDB = async (id: string) => {
   const product = await Product.findById(id);
+
+  if (!product) {
+    throw CustomError('No product found with this product id!', 404);
+  }
+
   return product;
 };
 
@@ -40,6 +45,10 @@ const updateSingleProductIntoDB = async (
   const updatedProduct = await Product.findByIdAndUpdate(id, productData, {
     new: true, // to return updated data
   });
+
+  if (!updatedProduct) {
+    throw CustomError('No product found with this product id!', 404);
+  }
 
   return updatedProduct;
 };

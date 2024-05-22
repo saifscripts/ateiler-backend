@@ -19,7 +19,7 @@ const createOrder = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
         res.status(200).json({
             success: true,
             message: 'Order created successfully!',
-            result: result,
+            data: result,
         });
     }
     catch (error) {
