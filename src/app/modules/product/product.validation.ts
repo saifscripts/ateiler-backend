@@ -1,5 +1,4 @@
 import { z } from 'zod';
-import mongoose from 'mongoose';
 
 const variantSchema = z.object({
   type: z.string().min(1),
