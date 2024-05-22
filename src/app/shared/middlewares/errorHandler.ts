@@ -8,7 +8,11 @@ export const errorHandler = (
   _next: NextFunction,
 ): void => {
   const statusCode = err.statusCode || 500;
-  const message = err.message || 'Something went wrong!';
+
+  const message =
+    err.name === 'ZodError'
+      ? err.issues?.map((e) => e.message).join(' | ')
+      : err.message || 'Something went wrong!';
 
   res.status(statusCode).json({
     success: false,
