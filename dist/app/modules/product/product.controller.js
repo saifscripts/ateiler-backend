@@ -11,9 +11,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.productControllers = void 0;
 const product_service_1 = require("./product.service");
+const product_validation_1 = require("./product.validation");
 const createProduct = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield product_service_1.productServices.createProductIntoDB(req.body);
+        const parsedProductData = product_validation_1.productValidationSchema.parse(req.body);
+        const result = yield product_service_1.productServices.createProductIntoDB(parsedProductData);
         res.status(200).json({
             success: true,
             message: 'Product created successfully!',
@@ -57,8 +59,8 @@ const getSingleProduct = (req, res, next) => __awaiter(void 0, void 0, void 0, f
 const updateSingleProduct = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { productId } = req.params;
-        const productData = req.body;
-        const result = yield product_service_1.productServices.updateSingleProductIntoDB(productId, productData);
+        const parsedProductData = product_validation_1.productValidationSchema.partial().parse(req.body);
+        const result = yield product_service_1.productServices.updateSingleProductIntoDB(productId, parsedProductData);
         res.status(200).json({
             success: true,
             message: 'Product updated successfully!',

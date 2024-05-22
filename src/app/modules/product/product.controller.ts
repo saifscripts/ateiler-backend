@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { productServices } from './product.service';
+import { productValidationSchema } from './product.validation';
 
 const createProduct = async (
   req: Request,
@@ -7,7 +8,8 @@ const createProduct = async (
   next: NextFunction,
 ) => {
   try {
-    const result = await productServices.createProductIntoDB(req.body);
+    const parsedProductData = productValidationSchema.parse(req.body);
+    const result = await productServices.createProductIntoDB(parsedProductData);
 
     res.status(200).json({
       success: true,
@@ -66,11 +68,11 @@ const updateSingleProduct = async (
 ) => {
   try {
     const { productId } = req.params;
-    const productData = req.body;
+    const parsedProductData = productValidationSchema.partial().parse(req.body);
 
     const result = await productServices.updateSingleProductIntoDB(
       productId,
-      productData,
+      parsedProductData,
     );
 
     res.status(200).json({
