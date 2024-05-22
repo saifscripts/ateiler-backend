@@ -11,6 +11,8 @@ const productVariantSchema = new mongoose_1.Schema({
         type: String,
         required: true,
     },
+}, {
+    _id: false,
 });
 const productInventorySchema = new mongoose_1.Schema({
     quantity: {
@@ -21,6 +23,8 @@ const productInventorySchema = new mongoose_1.Schema({
         type: Boolean,
         required: true,
     },
+}, {
+    _id: false,
 });
 const productSchema = new mongoose_1.Schema({
     name: {

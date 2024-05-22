@@ -5,27 +5,37 @@ import {
   IProductVariant,
 } from './product.interface';
 
-const productVariantSchema = new Schema<IProductVariant>({
-  type: {
-    type: String,
-    required: true,
+const productVariantSchema = new Schema<IProductVariant>(
+  {
+    type: {
+      type: String,
+      required: true,
+    },
+    value: {
+      type: String,
+      required: true,
+    },
   },
-  value: {
-    type: String,
-    required: true,
+  {
+    _id: false,
   },
-});
+);
 
-const productInventorySchema = new Schema<IProductInventory>({
-  quantity: {
-    type: Number,
-    required: true,
+const productInventorySchema = new Schema<IProductInventory>(
+  {
+    quantity: {
+      type: Number,
+      required: true,
+    },
+    inStock: {
+      type: Boolean,
+      required: true,
+    },
   },
-  inStock: {
-    type: Boolean,
-    required: true,
+  {
+    _id: false,
   },
-});
+);
 
 const productSchema = new Schema<IProduct>({
   name: {
