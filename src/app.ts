@@ -14,23 +14,26 @@ app.use(cors());
 app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
 
-app.get('/', (req: Request, res: Response) => {
+// test route
+app.get('/', (_req: Request, res: Response) => {
   res.status(200).json({ message: 'Hello World!' });
 });
 
-app.get('/*', (req: Request, res: Response) => {
+// handle unmatched routes
+app.all('/*', (_req: Request, res: Response) => {
   res.status(404).json({
     success: false,
     message: 'Route not found',
   });
 });
 
+// global error handler
 app.use(
   (
     err: ICustomError,
-    req: Request,
+    _req: Request,
     res: Response,
-    next: NextFunction,
+    _next: NextFunction,
   ): void => {
     const statusCode = err.statusCode || 500;
     const message = err.message || 'Something went wrong!';

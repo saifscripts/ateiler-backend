@@ -1,4 +1,3 @@
-import { ICustomError } from '../../shared/types';
 import { CustomError } from '../../shared/utils/CustomError';
 import { Product } from '../product/product.model';
 import { IOrder } from './order.interface';
@@ -16,14 +15,11 @@ const createOrderIntoDB = async (orderData: IOrder) => {
   }
 
   product.inventory.quantity -= orderData.quantity; // update inventory quantity
+  product.inventory.inStock = product.inventory.quantity > 0; // update stock status
   const order = await Order.create(orderData); // create order
-  await product.save(); // save product data with updated quantity
+  await product.save(); // save product data with updated quantity and stock status
 
-  return {
-    success: true,
-    message: 'Order created successfully!',
-    result: order,
-  };
+  return order;
 };
 
 const getAllOrdersFromDB = async (email?: string) => {
@@ -34,13 +30,7 @@ const getAllOrdersFromDB = async (email?: string) => {
     throw CustomError('Order not found', 404);
   }
 
-  return {
-    success: true,
-    message: email
-      ? 'Orders fetched successfully for user email!'
-      : 'Orders fetched successfully!',
-    data: orders,
-  };
+  return orders;
 };
 
 export const OrderServices = {

@@ -22,13 +22,10 @@ const createOrderIntoDB = (orderData) => __awaiter(void 0, void 0, void 0, funct
         throw (0, CustomError_1.CustomError)('Insufficient quantity available in inventory', 422);
     }
     product.inventory.quantity -= orderData.quantity; // update inventory quantity
+    product.inventory.inStock = product.inventory.quantity > 0; // update stock status
     const order = yield order_model_1.Order.create(orderData); // create order
-    yield product.save(); // save product data with updated quantity
-    return {
-        success: true,
-        message: 'Order created successfully!',
-        result: order,
-    };
+    yield product.save(); // save product data with updated quantity and stock status
+    return order;
 });
 const getAllOrdersFromDB = (email) => __awaiter(void 0, void 0, void 0, function* () {
     const findQuery = email ? { email } : {};
@@ -36,13 +33,7 @@ const getAllOrdersFromDB = (email) => __awaiter(void 0, void 0, void 0, function
     if (orders.length === 0) {
         throw (0, CustomError_1.CustomError)('Order not found', 404);
     }
-    return {
-        success: true,
-        message: email
-            ? 'Orders fetched successfully for user email!'
-            : 'Orders fetched successfully!',
-        data: orders,
-    };
+    return orders;
 });
 exports.OrderServices = {
     createOrderIntoDB,

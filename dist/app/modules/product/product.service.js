@@ -14,11 +14,7 @@ const CustomError_1 = require("../../shared/utils/CustomError");
 const product_model_1 = require("./product.model");
 const createProductIntoDB = (productData) => __awaiter(void 0, void 0, void 0, function* () {
     const product = yield product_model_1.Product.create(productData);
-    return {
-        success: true,
-        message: 'Product created successfully!',
-        data: product,
-    };
+    return product;
 });
 const getAllProductsFromDB = (searchTerm) => __awaiter(void 0, void 0, void 0, function* () {
     const findQuery = searchTerm
@@ -34,42 +30,24 @@ const getAllProductsFromDB = (searchTerm) => __awaiter(void 0, void 0, void 0, f
     if (products.length === 0) {
         throw (0, CustomError_1.CustomError)('Product not found', 404);
     }
-    return {
-        success: true,
-        message: searchTerm
-            ? `Products matching search term '${searchTerm}' fetched successfully!`
-            : 'Products fetched successfully!',
-        data: products,
-    };
+    return products;
 });
 const getSingleProductFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const product = yield product_model_1.Product.findById(id);
-    return {
-        success: true,
-        message: 'Product fetched successfully!',
-        data: product,
-    };
+    return product;
 });
 const updateSingleProductIntoDB = (id, productData) => __awaiter(void 0, void 0, void 0, function* () {
     const updatedProduct = yield product_model_1.Product.findByIdAndUpdate(id, productData, {
         new: true,
     });
-    return {
-        success: true,
-        message: 'Product updated successfully!',
-        data: updatedProduct,
-    };
+    return updatedProduct;
 });
 const deleteSingleProductIntoDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const response = yield product_model_1.Product.deleteOne({ _id: id });
     if (response.deletedCount === 0) {
         throw (0, CustomError_1.CustomError)('No product found with this id!', 404);
     }
-    return {
-        success: true,
-        message: 'Product deleted successfully!',
-        data: null,
-    };
+    return response;
 });
 exports.productServices = {
     createProductIntoDB,

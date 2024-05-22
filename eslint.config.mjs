@@ -14,11 +14,22 @@ export default tseslint.config(
       },
     },
     rules: {
-      'no-unused-vars': 'error',
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          args: 'all',
+          argsIgnorePattern: '^_',
+          caughtErrors: 'all',
+          caughtErrorsIgnorePattern: '^_',
+          destructuredArrayIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          ignoreRestSiblings: true,
+        },
+      ],
       'no-unused-expressions': 'error',
       'prefer-const': 'error',
       'no-console': 'warn',
       'no-undef': 'error',
     },
-  }
+  },
 );

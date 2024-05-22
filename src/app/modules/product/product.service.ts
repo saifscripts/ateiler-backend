@@ -4,12 +4,7 @@ import { Product } from './product.model';
 
 const createProductIntoDB = async (productData: IProduct) => {
   const product = await Product.create(productData);
-
-  return {
-    success: true,
-    message: 'Product created successfully!',
-    data: product,
-  };
+  return product;
 };
 
 const getAllProductsFromDB = async (searchTerm?: string) => {
@@ -29,23 +24,12 @@ const getAllProductsFromDB = async (searchTerm?: string) => {
     throw CustomError('Product not found', 404);
   }
 
-  return {
-    success: true,
-    message: searchTerm
-      ? `Products matching search term '${searchTerm}' fetched successfully!`
-      : 'Products fetched successfully!',
-    data: products,
-  };
+  return products;
 };
 
 const getSingleProductFromDB = async (id: string) => {
   const product = await Product.findById(id);
-
-  return {
-    success: true,
-    message: 'Product fetched successfully!',
-    data: product,
-  };
+  return product;
 };
 
 const updateSingleProductIntoDB = async (id: string, productData: IProduct) => {
@@ -53,11 +37,7 @@ const updateSingleProductIntoDB = async (id: string, productData: IProduct) => {
     new: true,
   });
 
-  return {
-    success: true,
-    message: 'Product updated successfully!',
-    data: updatedProduct,
-  };
+  return updatedProduct;
 };
 
 const deleteSingleProductIntoDB = async (id: string) => {
@@ -67,11 +47,7 @@ const deleteSingleProductIntoDB = async (id: string) => {
     throw CustomError('No product found with this id!', 404);
   }
 
-  return {
-    success: true,
-    message: 'Product deleted successfully!',
-    data: null,
-  };
+  return response;
 };
 
 export const productServices = {

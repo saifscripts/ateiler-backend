@@ -52,8 +52,4 @@ const productSchema = new mongoose_1.Schema({
         required: true,
     },
 });
-productSchema.pre('save', function (next) {
-    this.inventory.inStock = this.inventory.quantity > 0;
-    next();
-});
 exports.Product = (0, mongoose_1.model)('Product', productSchema);

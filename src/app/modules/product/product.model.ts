@@ -58,9 +58,4 @@ const productSchema = new Schema<IProduct>({
   },
 });
 
-productSchema.pre('save', function (next) {
-  this.inventory.inStock = this.inventory.quantity > 0;
-  next();
-});
-
 export const Product = model<IProduct>('Product', productSchema);

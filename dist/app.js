@@ -14,16 +14,19 @@ app.use((0, cors_1.default)());
 // routes
 app.use('/api/products', product_route_1.productRoutes);
 app.use('/api/orders', order_route_1.orderRoutes);
-app.get('/', (req, res) => {
+// test route
+app.get('/', (_req, res) => {
     res.status(200).json({ message: 'Hello World!' });
 });
-app.get('/*', (req, res) => {
+// handle unmatched routes
+app.all('/*', (_req, res) => {
     res.status(404).json({
         success: false,
         message: 'Route not found',
     });
 });
-app.use((err, req, res, next) => {
+// global error handler
+app.use((err, _req, res, _next) => {
     const statusCode = err.statusCode || 500;
     const message = err.message || 'Something went wrong!';
     res.status(statusCode).json({
