@@ -1,66 +1,64 @@
-## How to run the application locally
+# How to Run the Application Locally
 
-Here is step by step guide provided to run the server on your local machine.
+Follow this step-by-step guide to run the server on your local machine.
 
-### 1. Clone the repository
+### 1. Clone the Repository
 
-First, clone this repository on your machine using this command.
+First, clone the repository to your machine using the following command:
 
 ```
 git clone https://github.com/saifscripts/ateiler-backend
 ```
 
-### 2. Change directory
+### 2. Change Directory
 
-Now, change the directory to the project directory using the following command.
+Next, navigate to the project directory with this command:
 
 ```
 cd ateiler-backend
 ```
 
-### 3. Install dependencies
+### 3. Install Dependencies
 
-Before running the app we must install all dependencies. To do that use one of the following commands.
+Before running the app, you need to install all dependencies. You can do this using either Yarn or npm.
 
-#### yarn
+#### Using Yarn
 
 ```
 yarn install
 ```
 
-or
-
-#### npm
+#### Using npm
 
 ```
 npm install --legacy-peer-deps
 ```
 
-### 4. Add a .env file
+### 4. Add a .env File
 
-To run the app we must add a .env file on the root folder, which contains following properties.
+To run the app, create a `.env` file in the root folder with the following properties:
 
 ```
 PORT=5000
 DATABASE_URL=mongodb://localhost:27017
 ```
 
-**[Note: You must change the DATABASE_URL if you want to run the app using your own database URI.]**
+**Note:** Change the `DATABASE_URL` if you want to use your own database URI.
 
-### 5. Run the app
+### 5. Run the App
 
-Now, the app is ready for running. To run the app use one of the following commands.
+Now, you're ready to run the app. Use one of the following commands to start the server.
 
-#### yarn
+#### Using Yarn
 
 ```
 yarn dev
 ```
 
-or
-
-#### npm
+#### Using npm
 
 ```
 npm run dev
 ```
+
+That's it! Your application should now be running locally.
