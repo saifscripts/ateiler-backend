@@ -1,9 +1,11 @@
 import { NextFunction, Request, Response } from 'express';
 import { OrderServices } from './order.service';
+import { orderValidationSchema } from './order.validation';
 
 const createOrder = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const result = await OrderServices.createOrderIntoDB(req.body);
+    const parsedOrderData = orderValidationSchema.parse(req.body);
+    const result = await OrderServices.createOrderIntoDB(parsedOrderData);
 
     res.status(200).json({
       success: true,

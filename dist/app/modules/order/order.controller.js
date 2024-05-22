@@ -11,9 +11,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.orderControllers = void 0;
 const order_service_1 = require("./order.service");
+const order_validation_1 = require("./order.validation");
 const createOrder = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield order_service_1.OrderServices.createOrderIntoDB(req.body);
+        const parsedOrderData = order_validation_1.orderValidationSchema.parse(req.body);
+        const result = yield order_service_1.OrderServices.createOrderIntoDB(parsedOrderData);
         res.status(200).json({
             success: true,
             message: 'Order created successfully!',
