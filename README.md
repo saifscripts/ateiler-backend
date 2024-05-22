@@ -22,18 +22,18 @@ cd ateiler-backend
 
 Before running the app we must install all dependencies. To do that use one of the following commands.
 
-#### npm
-
-```
-npm install
-```
-
-or
-
 #### yarn
 
 ```
 yarn install
+```
+
+or
+
+#### npm
+
+```
+npm install --legacy-peer-deps
 ```
 
 ### 4. Add a .env file
@@ -51,16 +51,16 @@ DATABASE_URL=mongodb://localhost:27017
 
 Now, the app is ready for running. To run the app use one of the following commands.
 
-#### npm
-
-```
-npm run dev
-```
-
-or
-
 #### yarn
 
 ```
 yarn dev
+```
+
+or
+
+#### npm
+
+```
+npm run dev
 ```
