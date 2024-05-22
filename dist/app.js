@@ -7,6 +7,7 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const product_route_1 = require("./app/modules/product/product.route");
 const order_route_1 = require("./app/modules/order/order.route");
+const errorHandler_1 = require("./app/shared/middlewares/errorHandler");
 const app = (0, express_1.default)();
 // parsers
 app.use(express_1.default.json());
@@ -26,12 +27,5 @@ app.all('/*', (_req, res) => {
     });
 });
 // global error handler
-app.use((err, _req, res, _next) => {
-    const statusCode = err.statusCode || 500;
-    const message = err.message || 'Something went wrong!';
-    res.status(statusCode).json({
-        success: false,
-        message,
-    });
-});
+app.use(errorHandler_1.errorHandler);
 exports.default = app;

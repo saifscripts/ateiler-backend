@@ -43,11 +43,11 @@ const updateSingleProductIntoDB = (id, productData) => __awaiter(void 0, void 0,
     return updatedProduct;
 });
 const deleteSingleProductIntoDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const response = yield product_model_1.Product.deleteOne({ _id: id });
-    if (response.deletedCount === 0) {
+    const response = yield product_model_1.Product.findByIdAndDelete(id);
+    if (!response) {
         throw (0, CustomError_1.CustomError)('No product found with this id!', 404);
     }
-    return response;
+    return null;
 });
 exports.productServices = {
     createProductIntoDB,

@@ -41,13 +41,13 @@ const updateSingleProductIntoDB = async (id: string, productData: IProduct) => {
 };
 
 const deleteSingleProductIntoDB = async (id: string) => {
-  const response = await Product.deleteOne({ _id: id });
+  const response = await Product.findByIdAndDelete(id);
 
-  if (response.deletedCount === 0) {
+  if (!response) {
     throw CustomError('No product found with this id!', 404);
   }
 
-  return response;
+  return null;
 };
 
 export const productServices = {
